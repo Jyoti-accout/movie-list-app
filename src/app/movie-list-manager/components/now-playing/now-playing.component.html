@@ -1,0 +1,4 @@
+<ng-container *ngFor="let movie of movies$ | async">
+    <app-movie-list-item [movie]="movie"></app-movie-list-item>
+  </ng-container>
+

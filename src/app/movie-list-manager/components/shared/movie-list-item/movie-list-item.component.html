@@ -1,0 +1,17 @@
+<div class="movie-container">
+    <div class="movie-poster">
+        <img src="{{imageBaseURL}}/{{posterwidth}}/{{movie.poster_path}}" alt="movie-poster" />
+    </div>
+    <div class="movie-details" [ngStyle]="movieDetailBackgroundStyle">
+        <h2 class="movie-detail-title">{{movie.title}}</h2>
+        <p class="movie-details-genres">
+            <span *ngFor="let genere of movie.genres">
+                {{genere}}
+            </span>
+        </p>
+        <p class="movie-detial-overview">{{movie.overview}}</p>
+        <span class="movie-details-rating-vote">
+            <strong>Viewer Rating: </strong>{{movie.vote_average}}
+        </span>
+    </div>
+</div>
