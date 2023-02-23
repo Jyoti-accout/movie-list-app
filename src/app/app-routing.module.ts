@@ -9,11 +9,17 @@ const routes: Routes = [
         (m) => m.MovieListManagerModule
       ),
   },
+  {
+    path: 'learning',
+    loadChildren: () =>
+      import('./angular-learning/angular-learning.module').then(
+        (m) => m.AngularLearningModule
+      ),
+  },
 
-  
-  { 
+  {
     path: '**',
-   redirectTo: 'movielist' 
+    redirectTo: 'movielist',
   },
 ];
 
