@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Person } from '../../models/learning.model';
 import { LearningService } from '../../services/learning.service';
+import { AddPersonComponent } from '../add-person/add-person.component';
 
 @Component({
   selector: 'app-data-binding',
@@ -12,10 +14,10 @@ export class DataBindingComponent implements OnInit {
   kids!: Person[];
   teens!: Person[];
   showForm = false;
-  name!: string;
-  age?: number;
-  sex?: 'Male' | 'Female' | 'Other';
-  occupation!: string;
+  personToEdit?: Person;
+  actionType: 'Add' | 'Edit' = 'Add';
+  persons!: Person[];
+  // persons!: Observable<Person[]>;
 
   constructor(private ls: LearningService) {}
 
@@ -23,28 +25,47 @@ export class DataBindingComponent implements OnInit {
     this.updatePersonList();
   }
   private updatePersonList() {
-    this.adults = this.ls.getPersons().filter((person) => person.age > 18);
-    this.kids = this.ls.getPersons().filter((person) => person.age < 13);
-    this.teens = this.ls
-      .getPersons()
-      .filter((person) => person.age > 12 && person.age < 20);
+    this.ls.getPersons().subscribe((persons: Person[]) => {
+      this.persons = persons;
+      this.adults = persons.filter((person) => person.age > 18);
+      this.kids = persons.filter((person) => person.age < 13);
+      this.teens = persons.filter(
+        (person) => person.age > 12 && person.age < 20
+      );
+    });
   }
   addPerson() {
-    this.name = '';
-    this.age = undefined;
-    this.sex = undefined;
-    this.occupation = '';
+    this.personToEdit = undefined;
+    this.actionType = 'Add';
     this.showForm = true;
   }
-  onFormSubmit() {
-    const personToAdd: Person = {
-      name: this.name,
-      age: <number>this.age,
-      sex: this.sex,
-      occupation: this.occupation,
-    };
-    this.ls.addPerson(personToAdd);
-    this.updatePersonList();
+  addPersonHandler(person: Person) {
+    if (this.actionType === 'Add') {
+      this.ls.addPerson(person).subscribe((res) => {
+        console.log('Response from add person', res);
+        this.updatePersonList();
+        this.showForm = false;
+      });
+    } else {
+      this.ls.editPerson(person).subscribe((res) => {
+        console.log('Response from edit person', res);
+        this.updatePersonList();
+        this.showForm = false;
+      });
+    }
+  }
+  cancelFormHandler() {
     this.showForm = false;
+  }
+  editEventHandler(person: Person) {
+    this.personToEdit = person;
+    this.actionType = 'Edit';
+    this.showForm = true;
+  }
+  deleteEventHandler(id: number) {
+    this.ls.deletePerson(id).subscribe((res) => {
+      console.log(res);
+      this.updatePersonList();
+    });
   }
 }

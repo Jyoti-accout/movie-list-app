@@ -3,4 +3,5 @@ export type Person = {
   sex: 'Male' | 'Female' | 'Other' | undefined;
   age: number;
   occupation?: string;
+  id?: number;
 };

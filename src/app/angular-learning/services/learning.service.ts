@@ -1,60 +1,38 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Person } from '../models/learning.model';
-
+const url = 'http://localhost:3000/api/';
 @Injectable({
   providedIn: 'root',
 })
 export class LearningService {
-  constructor() {}
-  persons: Person[] = [
-    {
-      name: 'Chandra Mohan',
-      sex: 'Male',
-      age: 37,
-      occupation: 'Software Engineer',
-    },
-    {
-      name: 'Jyoti Kumari',
-      sex: 'Female',
-      age: 27,
-      occupation: 'Software Engineer',
-    },
-    {
-      name: 'Jiya Kumar',
-      sex: 'Female',
-      age: 8,
-      occupation: 'Student',
-    },
-    {
-      name: 'Aditya Kumar',
-      sex: 'Male',
-      age: 22,
-      occupation: 'Student',
-    },
-    {
-      name: 'Shreya Kumar',
-      sex: 'Female',
-      age: 4,
-      occupation: 'Happy Kid',
-    },
-    {
-      name: 'Diya Mandal',
-      sex: 'Female',
-      age: 15,
-      occupation: 'Student',
-    },
-    {
-      name: 'Aadi Kumar',
-      sex: 'Male',
-      age: 17,
-      occupation: 'Student',
-    },
-  ];
-  addPerson(person: Person): void {
-    this.persons.push(person);
+  constructor(private http: HttpClient) {}
+
+  addPerson(person: Person): Observable<any> {
+    // person = { ...person, id: this.persons.length + 1 };
+    // this.persons.push(person);
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.post(url + 'add-person', person, httpOptions);
   }
 
-  getPersons(): Person[] {
-    return this.persons;
+  getPersons(): Observable<Person[]> {
+    return <Observable<Person[]>>this.http.get(url + 'persons');
+  }
+  editPerson(person: Person): Observable<any> {
+    // const index = <number>person.id - 1;
+    // this.persons[index] = person;
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.post(url + 'update-person', person, httpOptions);
+  }
+  deletePerson(id: number): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.post(url + 'delete-person', { id }, httpOptions);
   }
 }

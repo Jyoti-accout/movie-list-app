@@ -5,9 +5,22 @@ import { AngularLearningRoutingModule } from './angular-learning-routing.module'
 import { DataBindingComponent } from './components/data-binding/data-binding.component';
 import { PersonComponent } from './components/person/person.component';
 import { FormsModule } from '@angular/forms';
+import { AddPersonComponent } from './components/add-person/add-person.component';
+import { MaterialModule } from '../material/material.module';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
-  declarations: [DataBindingComponent, PersonComponent],
-  imports: [CommonModule, AngularLearningRoutingModule, FormsModule],
+  declarations: [
+    DataBindingComponent,
+    PersonComponent,
+    AddPersonComponent,
+    TableComponent,
+  ],
+  imports: [
+    CommonModule,
+    AngularLearningRoutingModule,
+    FormsModule,
+    MaterialModule,
+  ],
 })
 export class AngularLearningModule {}

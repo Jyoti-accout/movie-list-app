@@ -1,39 +1,43 @@
-<app-person [persons]="adults" [personType]="'Adults'"></app-person>
-<app-person [persons]="kids" [personType]="'Kids'"></app-person>
-<app-person [persons]="teens" [personType]="'Teens'"></app-person>
-<button (click)="addPerson()">add person</button>
-<ng-container *ngIf="showForm">
-  <div class="form-container">
-    <h2>Enter your information</h2>
-    <form (submit)="onFormSubmit()">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required [(ngModel)]="name" />
-      </div>
-      <div class="form-group">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required [(ngModel)]="age" />
-      </div>
-      <div class="form-group">
-        <label for="sex">Sex:</label>
-        <select id="sex" name="sex" required [(ngModel)]="sex">
-          <option value="">-- Select --</option>
-          <option value="Male">Male</option>
-          <option value="female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="occupation">Occupation:</label>
-        <input
-          type="text"
-          id="occupation"
-          name="occupation"
-          required
-          [(ngModel)]="occupation"
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-</ng-container>
+<div class="container">
+  <ng-container *ngIf="false">
+    <app-person
+      [persons]="adults"
+      [personType]="'Adults'"
+      (editPersonEvent)="editEventHandler($event)"
+      (deletePersonEvent)="deleteEventHandler($event)"
+    ></app-person>
+    <app-person
+      [persons]="kids"
+      [personType]="'Kids'"
+      (editPersonEvent)="editEventHandler($event)"
+      (deletePersonEvent)="deleteEventHandler($event)"
+    ></app-person>
+    <app-person
+      [persons]="teens"
+      [personType]="'Teens'"
+      (editPersonEvent)="editEventHandler($event)"
+      (deletePersonEvent)="deleteEventHandler($event)"
+    ></app-person>
+    <button mat-button>mat-click</button>
+  </ng-container>
+  <ng-container *ngIf="!showForm">
+    <app-table [persons]="persons"></app-table>
+    <button
+      class="add-person-btn"
+      mat-raised-button
+      color="primary"
+      (click)="addPerson()"
+    >
+      add person
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="showForm">
+    <app-add-person
+      (addPerson)="addPersonHandler($event)"
+      (cancelForm)="cancelFormHandler()"
+      [person]="personToEdit"
+      [actionType]="actionType"
+    ></app-add-person>
+  </ng-container>
+</div>

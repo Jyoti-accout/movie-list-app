@@ -1,6 +1,11 @@
-<div>
+<div class="person-container">
   List of {{ personType }}:
   <ul *ngFor="let person of persons">
-    <li>{{ person.name }}</li>
+    <li>
+      ({{ person.id }}) {{ person.name }} ({{ person.sex }}, {{ person.age }}):
+      {{ person.occupation }}
+      <button (click)="editClickHandler(person)">edit</button>
+      <button (click)="deleteClickHandler(person.id)">Delete</button>
+    </li>
   </ul>
 </div>
