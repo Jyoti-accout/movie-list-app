@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { AddPersonComponent } from './components/add-person/add-person.component';
 import { MaterialModule } from '../material/material.module';
 import { TableComponent } from './components/table/table.component';
+import { ContainerComponent } from './components/container/container.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TableComponent } from './components/table/table.component';
     PersonComponent,
     AddPersonComponent,
     TableComponent,
+    ContainerComponent,
   ],
   imports: [
     CommonModule,

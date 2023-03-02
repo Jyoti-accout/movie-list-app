@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DataBindingComponent } from './components/data-binding/data-binding.component';
+import { ContainerComponent } from './components/container/container.component';
 import { TableComponent } from './components/table/table.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataBindingComponent,
+    component: ContainerComponent,
   },
   {
-    path: 'table',
+    path: 'person',
     component: TableComponent,
   },
 ];

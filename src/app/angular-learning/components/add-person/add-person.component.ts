@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Person } from '../../models/learning.model';
+import { LearningService } from '../../services/learning.service';
 
 @Component({
   selector: 'app-add-person',
@@ -7,8 +8,8 @@ import { Person } from '../../models/learning.model';
   styleUrls: ['./add-person.component.scss'],
 })
 export class AddPersonComponent implements OnInit {
-  @Output() addPerson = new EventEmitter<Person>();
-  @Output() cancelForm = new EventEmitter<null>();
+  // @Output() addPerson = new EventEmitter<Person>();
+  // @Output() cancelForm = new EventEmitter<null>();
   @Input() person?: Person;
   @Input() actionType: 'Add' | 'Edit' = 'Add';
   isError = false;
@@ -17,7 +18,7 @@ export class AddPersonComponent implements OnInit {
   sex!: 'Male' | 'Female' | 'Other' | undefined;
   occupation?: string;
 
-  constructor() {}
+  constructor(private ls: LearningService) {}
 
   ngOnInit(): void {
     if (this.person) {
@@ -26,6 +27,13 @@ export class AddPersonComponent implements OnInit {
       this.sex = this.person.sex;
       this.occupation = this.person.occupation;
     }
+  }
+
+  addPerson(person: Person) {
+    this.ls.addPerson(person).subscribe((res) => {});
+  }
+  editPerson(person: Person) {
+    this.ls.editPerson(person).subscribe();
   }
 
   onFormSubmit() {
@@ -39,9 +47,9 @@ export class AddPersonComponent implements OnInit {
       this.isError = true;
     } else {
       if (this.person) {
-        this.addPerson.emit({ ...this.person, ...personToAdd });
+        this.editPerson({ ...this.person, ...personToAdd });
       } else {
-        this.addPerson.emit(personToAdd);
+        this.addPerson(personToAdd);
       }
     }
   }
